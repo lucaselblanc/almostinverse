@@ -125,22 +125,27 @@ BigInt recip2(BigInt g, BigInt f) {
 }
 
 int main(int argc, char* argv[]) {
-    if (argc != 3) {
-        std::cerr << "Params: " << argv[0] << " <base g> <mod f>\n";
-        std::cerr << "Example: " << argv[0] 
-                  << "Hex: 0x1 or Dec: 1"
-                  << "Hex: 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F or 115792089237316195423570985008687907853269984665640564039457584007908834671663\n"; //Elliptic Curve: SECP256K1
-        return 1;
-    }
+    BigInt g, f;
+    std::string input;
 
     try {
-        BigInt g(argv[1]); // base
-        BigInt f(argv[2]); // mod
+        if (argc == 3) {
+            g = BigInt(argv[1]);
+            f = BigInt(argv[2]);
+        } else {
+            std::cout << "Enter the base g in hex or dec, ex: 0x1 or 1): ";
+            std::getline(std::cin, input);
+            g = BigInt(input);
+
+            std::cout << "Enter the mod f in hex or dec, ex: 0xF or 15: ";
+            std::getline(std::cin, input);
+            f = BigInt(input);
+        }
 
         BigInt inv = recip2(g, f);
         BigInt check = (inv * g) % f;
 
-        std::cout << "Inverso: 0x" << std::hex << inv << std::endl;
+        std::cout << "Inverse: 0x" << std::hex << inv << std::endl;
         std::cout << "Check: 0x" << std::hex << check << std::endl;
 
         if (check == 1) {
