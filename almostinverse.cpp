@@ -142,7 +142,7 @@ int main(int argc, char* argv[]) {
             f = BigInt(input);
         }
 
-        if (g < (BigInt(1) << 32) || f < (BigInt(1) << 32)) {
+        if (g < (BigInt(1) << 31) || f < (BigInt(1) << 31)) {
             std::cerr << "Error: The base g and mod f must be greater than or equal to 32 bits!" << std::endl;
             return 1;
         }
