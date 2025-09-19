@@ -1,5 +1,5 @@
 # Almost Inverse
-Implementation of the **Almost Inverse** algorithm, a variant of *Bernstein &amp; Yang* to calculate the modular inverse of arbitrary integers.
+Implementation of the **Almost Inverse** algorithm, a variant of *Bernstein &amp; Yang* optimized for computing the modular inverse in scalar integers.
 
 # References   
 [Paper](https://gcd.cr.yp.to/papers.html#safegcd)
