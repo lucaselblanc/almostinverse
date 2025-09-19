@@ -99,7 +99,6 @@ int iterations(int d) {
     return (d < 46) ? (49 * d + 80) / 17 : (49 * d + 57) / 17;
 }
 
-//Main
 BigInt recip2(BigInt g, BigInt f) {
     if ((f & 1) == 0) throw std::invalid_argument("f must be odd");
 
