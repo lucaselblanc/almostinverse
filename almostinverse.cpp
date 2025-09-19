@@ -1,14 +1,14 @@
-/******************************************************************************************************
- * This file is part of the Pollard's Rho distribution: (https://github.com/lucaselblanc/pollardsrho) *
- * Copyright (c) 2024, 2025 Lucas Leblanc.                                                            *
- * Distributed under the MIT software license, see the accompanying.                                  *
- * file COPYING or https://www.opensource.org/licenses/mit-license.php.                               *
- ******************************************************************************************************/
+/*********************************************************************************************************
+ * This file is part of the Almost Inverse distribution: (https://github.com/lucaselblanc/almostinverse) *
+ * Copyright (c) 2024, 2025 Lucas Leblanc.                                                               *
+ * Distributed under the MIT software license, see the accompanying.                                     *
+ * file COPYING or https://www.opensource.org/licenses/mit-license.php.                                  *
+ *********************************************************************************************************/
 
-/*****************************************
- * Pollard's Rho Algorithm for SECP256K1 *
- * Written by Lucas Leblanc              *
-******************************************/
+/***********************************************
+ * Almost Inverse Algorithm - Bernstein & Yang *
+ * Written by Lucas Leblanc                    *
+ ***********************************************/
 
 //Based on the Paper Almost-Inverse/Bernstein-Yang, REF: https://eprint.iacr.org/2019/266.pdf
 
@@ -99,6 +99,7 @@ int iterations(int d) {
     return (d < 46) ? (49 * d + 80) / 17 : (49 * d + 57) / 17;
 }
 
+//Main
 BigInt recip2(BigInt g, BigInt f) {
     if ((f & 1) == 0) throw std::invalid_argument("f must be odd");
 
