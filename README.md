@@ -2,14 +2,13 @@
 Implementation of the **Almost Inverse** algorithm, a variant of *Bernstein &amp; Yang* to calculate the modular inverse of arbitrary integers.
 
 # References   
-    [Paper](https://gcd.cr.yp.to/papers.html#safegcd)
+[Paper](https://gcd.cr.yp.to/papers.html#safegcd)
 
 **Important Notice:**
 
-    The Almost Inverse algorithm relies on a sufficiently large bit size to function correctly. To ensure proper operation, the following rules must be observed:
+The Almost Inverse algorithm relies on a sufficiently large bit size to function correctly. To ensure proper operation, the following rules must be observed:
 
     1. The base `g` must be **less than or equal to the modulus `f`**
-
     2. Both the base `g` and the modulus `f` must be **greater than or equal to 32 bits**
 
 ---
