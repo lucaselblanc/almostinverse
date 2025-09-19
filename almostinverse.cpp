@@ -133,11 +133,11 @@ int main(int argc, char* argv[]) {
             g = BigInt(argv[1]);
             f = BigInt(argv[2]);
         } else {
-            std::cout << "Enter the base g in hex or dec, ex: 0x1 or 1): ";
+            std::cout << "Enter the base g in hex or dec, ex: 0xf5e4d3c2b1a0 or 270363154100640: ";
             std::getline(std::cin, input);
             g = BigInt(input);
 
-            std::cout << "Enter the mod f in hex or dec, ex: 0xF or 15: ";
+            std::cout << "Enter the mod f in hex or dec, ex: 0xf5e4d3c2b1a0 or 270363154100640: ";
             std::getline(std::cin, input);
             f = BigInt(input);
         }
