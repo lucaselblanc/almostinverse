@@ -142,6 +142,16 @@ int main(int argc, char* argv[]) {
             f = BigInt(input);
         }
 
+        if (g < (BigInt(1) << 32) || f < (BigInt(1) << 32)) {
+            std::cerr << "Error: The base g and mod f must be greater than or equal to 32 bits!" << std::endl;
+            return 1;
+        }
+
+        if (g > f) {
+            std::cerr << "Error: The base g must be less than or equal to the mod f!" << std::endl;
+            return 1;
+        }
+
         BigInt inv = recip2(g, f);
         BigInt check = (inv * g) % f;
 
