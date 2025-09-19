@@ -123,3 +123,36 @@ BigInt recip2(BigInt g, BigInt f) {
 
     return inv;
 }
+
+int main(int argc, char* argv[]) {
+    if (argc != 3) {
+        std::cerr << "Params: " << argv[0] << " <base g> <mod f>\n";
+        std::cerr << "Example: " << argv[0] 
+                  << "Hex: 0x1 or Dec: 1"
+                  << "Hex: 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F or 115792089237316195423570985008687907853269984665640564039457584007908834671663\n"; //Elliptic Curve: SECP256K1
+        return 1;
+    }
+
+    try {
+        BigInt g(argv[1]); // base
+        BigInt f(argv[2]); // mod
+
+        BigInt inv = recip2(g, f);
+        BigInt check = (inv * g) % f;
+
+        std::cout << "Inverso: 0x" << std::hex << inv << std::endl;
+        std::cout << "Check: 0x" << std::hex << check << std::endl;
+
+        if (check == 1) {
+            std::cout << "Result: valid inverse!" << std::endl;
+        } else {
+            std::cout << "Result: invalid inverse!" << std::endl;
+        }
+
+    } catch (const std::exception &e) {
+        std::cerr << "Erro: " << e.what() << std::endl;
+        return 1;
+    }
+
+    return 0;
+}
