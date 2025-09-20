@@ -8,7 +8,7 @@ Implementation of the **Almost Inverse** algorithm, a variant of *Bernstein &amp
 
 **Important Notice:**
 
- This implementation operates on a finite field of integers 𝔽𝑓, defined by the prime modulo 𝑓.  There is no efficiency gain or complexity reduction by using properties of polynomials, as the code was not designed for finite polynomial fields.
+ This implementation operates on a finite field of integers 𝔽𝑓, defined by the prime modulo 𝑓, there is no efficiency gain or complexity reduction by using properties of polynomials, as the code was not designed for finite polynomial fields.
 
  The Almost Inverse algorithm relies on a sufficiently large bit size to function correctly. To ensure proper operation, the following rules must be observed:
 
