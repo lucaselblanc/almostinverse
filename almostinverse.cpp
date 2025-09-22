@@ -93,7 +93,7 @@ auto divsteps2(int n, int t, int delta, BigInt g, BigInt f) {
     auto QR = make_pair(Q, R);
     auto P  = make_pair(UV, QR);
 
-    bool b;
+    bool b = false;
 
     if(b == false){
         std::cout << "bits de V = " << msb(V) + 1 << "\n";
