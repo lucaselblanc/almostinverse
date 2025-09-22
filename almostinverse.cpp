@@ -96,7 +96,7 @@ auto divsteps2(int n, int t, int delta, BigInt g, BigInt f) {
     bool b;
 
     if(b == false){
-        std::cout << "bits de P = " << msb(P) + 1 << "\n";
+        std::cout << "bits de V = " << msb(V) + 1 << "\n";
         b = true;
     }
 
