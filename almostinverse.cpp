@@ -92,6 +92,14 @@ auto divsteps2(int n, int t, int delta, BigInt g, BigInt f) {
     auto UV = make_pair(U, V);
     auto QR = make_pair(Q, R);
     auto P  = make_pair(UV, QR);
+
+    bool b;
+
+    if(b == false){
+        std::cout << "bits de P = " << msb(P) + 1 << "\n";
+        b = true;
+    }
+
     return make_tuple(delta, g, f, P);
 }
 
