@@ -606,6 +606,7 @@ uint256_t prho(std::string target_pubkey_hex, int key_range, const int WALKERS, 
                         } );
 
                         if (cl) {
+                            printf("\n[COLISÃO DETECTADA!] w.b: %llu | found.b: %llu\n", w->b.limbs[0], found_dp.b.limbs[0]);
                             uint256_t da, db, inv_db;
                             if (compare_uint256(w->a, found_dp.a) >= 0) da = sub_uint256(w->a, found_dp.a);
                             else da = sub_uint256(N, sub_uint256(found_dp.a, w->a));
