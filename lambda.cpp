@@ -440,25 +440,6 @@ uint256_t prho(std::string target_pubkey_hex, int key_range, const int WALKERS, 
     uint256_t stepSize = {};
     stepSize.limbs[(key_range / 2) / 64] = 1ULL << ((key_range / 2) % 64);
 
-    /*
-    for (int i = 0; i < N_STEPS; i++) {
-        localStepTable[i].a = rng_mersenne_twister(uint256_t{0}, stepSize, key_range / 2, salt);
-        localStepTable[i].b = (salt() % (key_range / 2) == 0) ? uint256_t{1, 0, 0, 0} : uint256_t{0, 0, 0, 0};
-
-        uint64_t a_tmp[4];
-        uint256_to_uint64_array(a_tmp, localStepTable[i].a);
-        jacobianScalarMultPhi(&localStepTable[i].point, preCompG, preCompGphi, a_tmp, windowSize);
-
-        if (localStepTable[i].b.limbs[0] == 1) {
-            pointAddJacobian(&localStepTable[i].point, &localStepTable[i].point, &Q_PRIME);
-        }
-
-        ECPointAffine aff_step;
-        jacobianToAffine(&aff_step, &localStepTable[i].point);
-        affineToJacobian(&localStepTable[i].point, &aff_step);
-    }
-    */
-
     for (int i = 0; i < N_STEPS; i++) {
         localStepTable[i].a = rng_mersenne_twister(uint256_t{0}, stepSize, key_range / 2, salt);
 
@@ -466,11 +447,9 @@ uint256_t prho(std::string target_pubkey_hex, int key_range, const int WALKERS, 
         uint256_to_uint64_array(a_tmp, localStepTable[i].a);
         jacobianScalarMultPhi(&localStepTable[i].point, preCompG, preCompGphi, a_tmp, windowSize);
 
-        // Converte temporariamente para afim para extrair a estrutura determinística (LSB) do ponto R
         ECPointAffine aff_step_tmp;
         jacobianToAffine(&aff_step_tmp, &localStepTable[i].point);
 
-        // Se o bit menos significativo de X for 1, b = 1 e adicionamos Q_PRIME
         if (aff_step_tmp.x[0] & 1ULL) {
             localStepTable[i].b = uint256_t{1, 0, 0, 0};
             pointAddJacobian(&localStepTable[i].point, &localStepTable[i].point, &Q_PRIME);
@@ -492,40 +471,6 @@ uint256_t prho(std::string target_pubkey_hex, int key_range, const int WALKERS, 
     initScalarSteps(sharedScalarStepsH.data(), windowSize);
 
     std::string header = "\033[96m[!] Loading Walkers... \033[0m";
-    /*
-    for (int i = 0; i < WALKERS; i++) {
-        walkers_state[i].rng.seed(std::random_device{}() ^ (uint64_t)i);
-        walkers_state[i].buffers = new Buffers();
-        walkers_state[i].buffers->scalarStepsG = sharedScalarStepsG.data();
-        walkers_state[i].buffers->scalarStepsH = sharedScalarStepsH.data();
-        walkers_state[i].a = rng_mersenne_twister(min_scalar, max_scalar, key_range, walkers_state[i].rng);
-        walkers_state[i].b = uint256_t{};
-        if (i % 2 != 0) {
-            walkers_state[i].b.limbs[0] = 1;
-        }
-
-        walkers_state[i].walk_id = i;
-        walkers_state[i].snapshot_steps = 0;
-        memset(walkers_state[i].snapshot_x, 0, 32);
-        memset(walkers_state[i].prev_x1, 0, 32);
-        memset(walkers_state[i].prev_x2, 0, 32);
-
-        uint64_t a_arr[4];
-        uint256_to_uint64_array(a_arr, walkers_state[i].a);
-        ECPointJacobian Ra;
-        jacobianScalarMultPhi(&Ra, preCompG, preCompGphi, a_arr, windowSize);
-
-        if (i % 2 == 0) {
-            walkers_state[i].R = Ra;
-        } else {
-            pointAddJacobian(&walkers_state[i].R, &Ra, &Q_PRIME);
-        }
-
-        if (i % 32 == 0 || i == WALKERS - 1) {
-            loading_bar(i + 1, WALKERS, header);
-        }
-    }
-    */
 
     for (int i = 0; i < WALKERS; i++) {
         walkers_state[i].rng.seed(std::random_device{}() ^ (uint64_t)i);
@@ -546,12 +491,9 @@ uint256_t prho(std::string target_pubkey_hex, int key_range, const int WALKERS, 
         ECPointJacobian Ra;
         jacobianScalarMultPhi(&Ra, preCompG, preCompGphi, a_arr, windowSize);
 
-        // Extrai a coordenada X do ponto gerador do walker
         ECPointAffine aff_start;
         jacobianToAffine(&aff_start, &Ra);
 
-        // Utiliza o LSB do ponto R em conjunto com o LSB do ID do walker
-        // Isso assegura que colisões do mesmo tipo (Tame-Tame) possam produzir deltas válidos
         if ((aff_start.x[0] & 1ULL) ^ (i & 1)) {
             walkers_state[i].b.limbs[0] = 1;
             pointAddJacobian(&walkers_state[i].R, &Ra, &Q_PRIME);
